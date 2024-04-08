@@ -17,11 +17,11 @@ function Swap() {
   const [isOpen, setIsOpen] = useState(false);
   const [changeToken, setChangeToken] = useState(1);
   const [prices, setPrices] = useState(null);
-  const [txDetails, setTxDetails] = useState({
-    to: null,
-    data: null,
-    value: null,
-  });
+  // const [txDetails, setTxDetails] = useState({
+  //   to: null,
+  //   data: null,
+  //   value: null,
+  // });
 
   function handleSlippage(e) {
     setSlippage(e.target.value);
@@ -49,10 +49,15 @@ function Swap() {
   }
 
   function modifyToken(i) {
+    setPrices(null);
+    setTokenOneAmount(null);
+    setTokenTwoAmount(null);
     if (changeToken === 1) {
       setTokenOne(tokenList[i]);
+      fetchPrices(tokenList[i].address, tokenTwo.address);
     } else {
       setTokenTwo(tokenList[i]);
+      fetchPrices(tokenOne.address, tokenList[i].address);
     }
     setIsOpen(false);
   }
