@@ -1,7 +1,9 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import numeral from 'numeral';
+import Chart from 'chart.js/auto';
 
 function Tokens() {
-
+  const chartRefs = useRef([]);
   const [assets, setAssets] = useState([]);
 
   const fetchAssest = async () => {
@@ -25,32 +27,36 @@ function Tokens() {
   }, [])
 
   return (
-    <div>
-      <table class="table-auto">
+    <div class="overflow-x-auto">
+      <table class="table-auto border-collapse border border-gray-400">
         <thead>
-          <tr class="block w-full">
-            <th class='px-4'>#</th>
-            <th class='px-4'>Name</th>
-            <th class='px-4'>Price</th>
-            <th class='px-4'>1h%</th>
-            <th class='px-4'>24h%</th>
-            <th class='px-4'>7d%</th>
-            <th class='px-4'>Market Cap</th>
-            <th class='px-4'>Volume(24h)</th>
-            <th class='px-4'>Circulating Supply</th>
-            <th class='px-4'>Last 7 Days</th>
+          <tr>
+            <th class="px-4 py-2">#</th>
+            <th class="px-4 py-2">Name</th>
+            <th class="px-4 py-2"></th>
+            <th class="px-4 py-2">Balance</th>
+            <th class="px-4 py-2">USD Price</th>
+            <th class="px-4 py-2">24hr % Change</th>
+            <th class="px-4 py-2">USD Value</th>
+            <th class="px-4 py-2">Portfolio Percentage</th>
           </tr>
         </thead>
         <tbody>
-          {assets.map((asset) => (
-            <tr key={assets.token_address} class="block w-full">
-              <td class="pr-6 pl-4 py-2">1</td>
-              <td class="pr-2 py-2"><img src={asset.thumbnail} class="w-9"></img></td>
-              <td class="pr-6 py-2">{asset.name}</td>
-              <td class="pr-6 pl-4 py-2">{asset.usd_price}</td>
-              <td class="pr-6 py-2">{asset.name}</td>
-              <td class="pr-6 pl-4 py-2">{asset.usd_price_24hr_percent_change}</td>
-              <td class="pr-6 pl-4 py-2">{asset.name}</td>
+          {assets.map((asset, index) => (
+            <tr key={asset.token_address}>
+              <td class="border px-4 py-2">{index + 1}</td>
+              <td class="border px-4 py-2 flex items-center">
+                <img src={asset.thumbnail} alt={asset.logo} class="h-8 w-8 mr-2"></img>
+                <span>{asset.name}</span>
+              </td>
+              <td class="border px-4 py-2">{asset.symbol}</td>
+              <td class="border px-4 py-2">{numeral(asset.balance_formatted).format('0,0.00')}</td>
+              <td class="border px-4 py-2">${numeral(asset.usd_price).format('0,0.00')}</td>
+              <td class="border px-4 py-2" style={{ color: asset.usd_price_24hr_percent_change < 0 ? 'red' : asset.usd_price_24hr_percent_change > 0 ? 'green' : 'yellow' }}>
+                {numeral(asset.usd_price_24hr_percent_change).format('0,0.00')}%
+              </td>
+              <td class="border px-4 py-2">${numeral(asset.usd_value).format('0,0.00')}</td>
+              <td class="border px-4 py-2">{asset.portfolio_percentage}%</td>
             </tr>
           ))}
         </tbody>
