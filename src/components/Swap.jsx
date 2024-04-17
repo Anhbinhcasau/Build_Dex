@@ -8,6 +8,7 @@ import {
 import tokenList from "../tokenList.json";
 import axios from "axios";
 import { useSendTransaction, useWaitForTransaction } from "wagmi";
+import { sendTransaction } from "@wagmi/core";
 
 function Swap(props) {
   const { address, isConnected } = props;
@@ -84,17 +85,18 @@ function Swap(props) {
 
   async function fetchDexSwap() {
     const allowance = await axios.get(
-      `https://api.1inch.io/v6.0/1/approve/allowance?tokenAddress=${tokenOne.address}&walletAddress=${address}`
+      `https://api.1inch.dev/swap/v6.0/1/approve/allowance?tokenAddress=${tokenOne.address}&walletAddress=${address}`
     );
 
     if (allowance.data.allowance === "0") {
       const approve = await axios.get(
-        `https://api.1inch.io/v6.0/1/approve/transaction?tokenAddress=${tokenOne.address}`
+        `https://api.1inch.dev/swap/v6.0/1/approve/transaction?tokenAddress=${tokenOne.address}`
       );
       setTxDetails(approve.data);
       console.log("Not approved");
       return;
     }
+    console.log("make swap");
   }
 
   useEffect(() => {

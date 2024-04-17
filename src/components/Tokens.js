@@ -1,11 +1,10 @@
 import React from 'react'
 
-function Tokens() {
+function Token() {
   return (
-    <div>Tokens
-      
+    <div>Tokens   
     </div>
   )
 }
 
-export default Tokens
+export default Token
