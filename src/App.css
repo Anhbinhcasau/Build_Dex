@@ -91,7 +91,8 @@ header {
   justify-content: flex-start;
   align-items: flex-start;
   padding-left: 30px;
-  padding-right: 30px;
+  padding-right:  30px;
+  padding-top : 20px;
 }
 
 
@@ -100,6 +101,7 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 98%;
+  padding: 10px;
 }
 
 .cog {
