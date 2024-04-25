@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../moralis-logo.svg";
+import Logo from "../logoTeam.png";
 import eth from "../eth.svg";
 import {  Link } from "react-router-dom";
 
