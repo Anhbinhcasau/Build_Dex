@@ -84,19 +84,34 @@ function Swap(props) {
   }
 
   async function fetchDexSwap() {
-    const allowance = await axios.get(
-      `https://api.1inch.dev/swap/v6.0/1/approve/allowance?tokenAddress=${tokenOne.address}&walletAddress=${address}`
-    );
-
-    if (allowance.data.allowance === "0") {
-      const approve = await axios.get(
-        `https://api.1inch.dev/swap/v6.0/1/approve/transaction?tokenAddress=${tokenOne.address}`
+    try {
+      const allowanceResponse = await axios.get(
+        `https://api.1inch.dev/swap/v6.0/1/approve/allowance?tokenAddress=${tokenOne.address}&walletAddress=${address}`
       );
-      setTxDetails(approve.data);
-      console.log("Not approved");
-      return;
+
+      const allowanceData = allowanceResponse.data;
+
+      if (allowanceData.allowance === "0") {
+        const approveResponse = await axios.get(
+          `https://api.1inch.dev/swap/v6.0/1/approve/transaction?tokenAddress=${tokenOne.address}`
+        );
+
+        const approveData = approveResponse.data;
+
+        // Xử lý dữ liệu trả về từ approveData nếu cần
+
+        setTxDetails(approveData);
+        console.log("Not approved");
+        return;
+      }
+
+      // Xử lý dữ liệu trả về từ allowanceData nếu cần
+
+      console.log("make swap");
+    } catch (error) {
+      console.error("Error:", error);
+      // Xử lý lỗi tại đây nếu cần
     }
-    console.log("make swap");
   }
 
   useEffect(() => {
