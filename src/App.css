@@ -18,8 +18,8 @@ header {
 }
 
 .eth{
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   padding-right: 10px;
 
 }
@@ -125,7 +125,7 @@ header {
   border-radius: 8px;
   position: absolute;
   top: 86px;
-  left: 180px;
+  left: 155px;
   color: #5F6783;
   border: 3px solid #0E111B;
   font-size: 12px;
