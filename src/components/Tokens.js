@@ -51,7 +51,7 @@ function Token() {
 
   return (
     <div className="overflow-x-auto">
-      <table className="table-auto border-collapse border border-gray-400">
+      <table className="table-auto">
         <thead>
           <tr>
             <th className="px-4 py-2">#</th>
@@ -65,35 +65,40 @@ function Token() {
           </tr>
         </thead>
         <tbody>
-          {assets.map((asset, index) => (
-            <tr key={asset.token_address}>
-              <td className="border px-4 py-2">{index + 1}</td>
-              <td className="border px-4 py-2 flex items-center">
-                <img
-                  src={asset.thumbnail}
-                  alt={asset.logo}
-                  className="h-8 w-8 mr-2"
-                ></img>
-                <span>{asset.name}</span>
-              </td>
-              <td className="border px-4 py-2">{asset.symbol}</td>
-              <td className="border px-4 py-2">
-                {numeral(asset.balance_formatted).format("0,0.00")}
-              </td>
-              <td className="border px-4 py-2">
-                ${numeral(asset.usd_price).format("0,0.00")}
-              </td>
-              <td className="border px-4 py-2" style={{ color: asset.color }}>
-                {numeral(asset.usd_price_24hr_percent_change).format("0,0.00")}%
-              </td>
-              <td className="border px-4 py-2">
-                ${numeral(asset.usd_value).format("0,0.00")}
-              </td>
-              <td className="border px-4 py-2">
-                {asset.portfolio_percentage}%
-              </td>
-            </tr>
-          ))}
+          {assets.map(
+            (asset, index) =>
+              // Kiểm tra nếu usd_price_24hr_percent_change khác 0 thì render
+              asset.usd_price > 0 && (
+                <tr key={asset.token_address}>
+                  <td className="px-4 py-2">{index + 1}</td>
+                  <td className="px-4 py-2 flex items-center">
+                    <img
+                      src={asset.thumbnail}
+                      alt={asset.logo}
+                      className="h-8 w-8 mr-2"
+                    ></img>
+                    <span>{asset.name}</span>
+                  </td>
+                  <td className="px-4 py-2">{asset.symbol}</td>
+                  <td className="px-4 py-2">
+                    {numeral(asset.balance_formatted).format("0,0.00")}
+                  </td>
+                  <td className="px-4 py-2">
+                    ${numeral(asset.usd_price).format("0,0.00")}
+                  </td>
+                  <td className="px-4 py-2" style={{ color: asset.color }}>
+                    {numeral(asset.usd_price_24hr_percent_change).format(
+                      "0,0.00"
+                    )}
+                    %
+                  </td>
+                  <td className="px-4 py-2">
+                    ${numeral(asset.usd_value).format("0,0.00")}
+                  </td>
+                  <td className="px-4 py-2">{asset.portfolio_percentage}%</td>
+                </tr>
+              )
+          )}
         </tbody>
       </table>
     </div>
