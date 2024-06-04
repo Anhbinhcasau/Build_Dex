@@ -4,15 +4,17 @@ import {
   ArrowDownOutlined,
   DownOutlined,
   SettingOutlined,
+  CaretDownOutlined,
+  CaretUpOutlined,
 } from "@ant-design/icons";
 import tokenList from "../tokenList.json";
 import axios from "axios";
-import { useSendTransaction, useWaitForTransaction } from "wagmi";
-import { sendTransaction } from "@wagmi/core";
+import { useSendTransaction } from "wagmi";
+import GasFees from "./GasFees";
 
 function Swap(props) {
   const { address, isConnected } = props;
-  //const [messageApi, contextHolder] = message.useMessage();
+  const [gas, setGasFees] = useState(null);
   const [slippage, setSlippage] = useState(2.5);
   const [tokenOneAmount, setTokenOneAmount] = useState(null);
   const [tokenTwoAmount, setTokenTwoAmount] = useState(null);
@@ -26,6 +28,7 @@ function Swap(props) {
     data: null,
     value: null,
   });
+  const [showGasFees, setShowGasFees] = useState(false);
 
   const { data, sendTransaction } = useSendTransaction({
     request: {
@@ -83,6 +86,15 @@ function Swap(props) {
     setPrices(res.data);
   }
 
+  async function fetchGasFees() {
+    try {
+      const response = await axios.get(`http://localhost:3001/gasFees`);
+      setGasFees(response.data);
+    } catch (error) {
+      console.error("Error fetching gas fees:", error);
+    }
+  }
+
   async function fetchDexSwap() {
     try {
       const allowanceResponse = await axios.get(
@@ -98,24 +110,20 @@ function Swap(props) {
 
         const approveData = approveResponse.data;
 
-        // Xử lý dữ liệu trả về từ approveData nếu cần
-
         setTxDetails(approveData);
         console.log("Not approved");
         return;
       }
 
-      // Xử lý dữ liệu trả về từ allowanceData nếu cần
-
       console.log("make swap");
     } catch (error) {
       console.error("Error:", error);
-      // Xử lý lỗi tại đây nếu cần
     }
   }
 
   useEffect(() => {
     fetchPrices(tokenList[0].address, tokenList[1].address);
+    fetchGasFees();
   }, []);
 
   useEffect(() => {
@@ -205,6 +213,18 @@ function Swap(props) {
         >
           Swap
         </div>
+        <button
+          onClick={() => setShowGasFees(true)}>
+          <p>Show Gas Fees</p>
+        </button>
+        <Modal
+          title="Gas Fees"
+          visible={showGasFees}
+          onCancel={() => setShowGasFees(false)}
+          footer={null}
+        >
+          <GasFees gas={gas} />
+        </Modal>
       </div>
     </>
   );

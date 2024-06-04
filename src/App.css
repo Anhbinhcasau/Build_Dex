@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .App {
   text-align: center;
 }
@@ -81,12 +85,12 @@ header {
 }
 
 .tradeBox {
-  width: 400px;
+  width: 500px;
   background-color: #0E111B;
   border: 2px solid #21273a;
   min-height: 300px;
   border-radius: 15px;
-  display: flex;
+  display: block;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -117,15 +121,15 @@ header {
 
 .switchButton {
   background-color: #3a4157;
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   align-items: center;
   justify-content: center;
   display: flex;
   border-radius: 8px;
   position: absolute;
   top: 86px;
-  left: 155px;
+  left: 205px;
   color: #5F6783;
   border: 3px solid #0E111B;
   font-size: 12px;
